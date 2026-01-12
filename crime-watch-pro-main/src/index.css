@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark command center theme */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 222 47% 10%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 199 89% 48%;
+    --primary-foreground: 222 47% 6%;
+
+    --secondary: 222 47% 14%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 222 47% 12%;
+    --muted-foreground: 215 20% 55%;
+
+    --accent: 199 89% 48%;
+    --accent-foreground: 222 47% 6%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 47% 18%;
+    --input: 222 47% 14%;
+    --ring: 199 89% 48%;
+
+    --radius: 0.75rem;
+
+    /* Custom crime risk colors */
+    --risk-high: 0 84% 55%;
+    --risk-medium: 38 92% 50%;
+    --risk-low: 142 71% 45%;
+    --risk-critical: 0 90% 45%;
+
+    /* Glow effects */
+    --glow-primary: 199 89% 48%;
+    --glow-danger: 0 84% 55%;
+    --glow-success: 142 71% 45%;
+
+    /* Sidebar */
+    --sidebar-background: 222 47% 7%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 199 89% 48%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 47% 12%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 47% 15%;
+    --sidebar-ring: 199 89% 48%;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 96%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+}
+
+@layer components {
+  /* Glowing card effect */
+  .card-glow {
+    @apply relative overflow-hidden;
+    box-shadow: 0 0 20px -5px hsl(var(--glow-primary) / 0.15);
+  }
+
+  .card-glow::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      hsl(var(--primary) / 0.06),
+      transparent 40%
+    );
+  }
+
+  .card-glow:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Risk badge styles */
+  .risk-badge-high {
+    @apply bg-red-500/20 text-red-400 border border-red-500/30;
+    text-shadow: 0 0 10px hsl(var(--risk-high) / 0.5);
+  }
+
+  .risk-badge-medium {
+    @apply bg-amber-500/20 text-amber-400 border border-amber-500/30;
+    text-shadow: 0 0 10px hsl(var(--risk-medium) / 0.5);
+  }
+
+  .risk-badge-low {
+    @apply bg-emerald-500/20 text-emerald-400 border border-emerald-500/30;
+    text-shadow: 0 0 10px hsl(var(--risk-low) / 0.5);
+  }
+
+  /* Pulsing animation for critical alerts */
+  .pulse-danger {
+    animation: pulse-danger 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-danger {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsl(var(--risk-high) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 20px 5px hsl(var(--risk-high) / 0.2);
+    }
+  }
+
+  /* Map marker glow */
+  .marker-glow-high {
+    box-shadow: 0 0 20px 8px hsl(var(--risk-high) / 0.5);
+  }
+
+  .marker-glow-medium {
+    box-shadow: 0 0 15px 5px hsl(var(--risk-medium) / 0.5);
+  }
+
+  .marker-glow-low {
+    box-shadow: 0 0 10px 3px hsl(var(--risk-low) / 0.5);
+  }
+
+  /* Monospace font utility */
+  .font-mono-data {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Animated gradient border */
+  .gradient-border {
+    position: relative;
+    background: linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
+                linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.3)) border-box;
+    border: 1px solid transparent;
+  }
+
+  /* Stat card hover effect */
+  .stat-card {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .stat-card:hover {
+    @apply -translate-y-1;
+    box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+  }
+
+  /* Slider track styles */
+  .simulation-slider {
+    @apply h-2 rounded-full bg-secondary;
+  }
+
+  .simulation-slider::-webkit-slider-thumb {
+    @apply appearance-none w-5 h-5 rounded-full bg-primary cursor-pointer;
+    box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+  }
+
+  /* Chart glow effect */
+  .chart-glow {
+    filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.3));
+  }
+
+  /* Loading shimmer */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Status indicator */
+  .status-online {
+    @apply relative;
+  }
+
+  .status-online::after {
+    content: '';
+    @apply absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+@layer utilities {
+  .text-glow-primary {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.5);
+  }
+
+  .text-glow-danger {
+    text-shadow: 0 0 20px hsl(var(--risk-high) / 0.5);
+  }
+
+  .text-glow-success {
+    text-shadow: 0 0 20px hsl(var(--risk-low) / 0.5);
+  }
+
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
